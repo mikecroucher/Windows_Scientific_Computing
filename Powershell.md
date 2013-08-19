@@ -18,7 +18,7 @@ You can launch this command shell as follows
 - Hold down both the Windows button and the letter R to open the Run prompt
 - Type cmd and press Enter or click OK
 
-![Git Setup]("./images/launchcmd.png")
+![Git Setup]("images/launchcmd.png")
 
 - You should see a window similar to the one below
 
