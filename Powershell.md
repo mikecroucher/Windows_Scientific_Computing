@@ -394,6 +394,55 @@ One key difference between find and get-childitem is that the latter is case-ins
 	#Create empty file
     UNIX: touch emptyfile.txt
 	PS: new-item emptyfile.txt -type file
+
+## Input and output redirection
+
+`>` redirects output (AKA standard output).  This works in both Bash and Powershell scripts.  For example, in Bash we might do
+
+	grep -r not * > found_nots.txt
+
+Drawing on what we've learned so far, you might write the PowerShell version of this command as
+
+	get-childitem *.txt -recurse | select-string not > found_nots.txt
+
+However, if you do this, you will find that the script will run forever with the hard-disk chugging like crazy. If you've run the above command, **CTRL and C** will stop it. This is because Powershell is including the output file, found_nots.txt, in its input which leads to an infinite loop.  To prevent this, we must explicitly exclude the output file from the **get-childitem** search
+
+	get-childitem *.txt -Exclude 'found_nots.txt' -recurse | select-string not > found_nots.txt
+
+	cat found_nots.txt
+    ls *.txt > txt_files.txt
+    cat txt_files.txt
+
+In Linux,  `<` redirects input (AKA standard input).  This does not work in PowerShell:
+
+	cat < haiku.txt
+	At line:1 char:5
+	+ cat < haiku.txt
+	+     ~
+	The '<' operator is reserved for future use.
+    	+ CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    	+ FullyQualifiedErrorId : RedirectionNotSupported
+
+The above is a forced use of < since one could simply do
+
+	cat haiku.txt
+
+Recall that **cat** is an alias for **get-content**.  The use of **get-content** is an idiom that gets around the lack an < operator.  For example, instead of 
+
+	foo < input.txt
+
+One does
+	
+	get-content input.txt | foo
+
+Error messages are output on standard error
+
+    ls idontexist.txt > output.txt  
+    cat output.txt					#output.txt is empty
+    ls idontexist.txt 2> output.txt               # 2 is standard error
+    ls haiku.txt 1> output.txt                    # 1 is standard output
+    ls haiku.txt,test_file.txt 2>&1 > output.txt
+
 	
 
 
