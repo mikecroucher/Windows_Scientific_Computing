@@ -39,6 +39,20 @@ To launch PowerShell:
 
 ![PowerShell prompt](./images/powershell.png)
 
+Note that although the header of the above window mentions v1.0, it could be a screenshot from either version 1.0 or version 2.0. This is a well-known bug.  If you are using Windows 7 you will have version 2 at the minimum.
+
+##PowerShell versions
+At the time of writing, PowerShell is at version 3.  Ideally, you should at least have version 2.0 installed.  To check version:
+
+	$psversiontable.psversion
+
+	Major  Minor  Build  Revision
+	-----  -----  -----  --------
+	3      0      -1     -1
+
+If this variable does not exist, you are probably using version 1.0 and should upgrade.
+
+Version 3.0 is available at [http://blogs.technet.com/b/heyscriptingguy/archive/2013/06/02/weekend-scripter-install-powershell-3-0-on-windows-7.aspx](http://blogs.technet.com/b/heyscriptingguy/archive/2013/06/02/weekend-scripter-install-powershell-3-0-on-windows-7.aspx?wa=wsignin1.0)
 
 ## Comments
 	# This is a comment in Powershell. It is not executed
@@ -137,6 +151,13 @@ You can pipe this list to a pager
 
 	Get-Command | more
 
+##Getting help
+You can get help on any PowerShell command using the -? switch. For example
+
+	ls -?
+
+When you do this, you'll get help for the **Get-ChildItem** Cmdlet which would be confusing if you didn't know that ls is actually an alias for **Get-ChildItem**
+
 ## History
 
 Up arrow browses previous commands.
@@ -210,9 +231,169 @@ Sometimes, you'll want to simply return the numerical value of an object's prope
 	#Counts the number of *.txt files and returns just the numerical result
 	ls *.txt | measure-object | select-object -expand Count
 
-##Getting help
-You can get help on any PowerShell command using the -? switch. For example
+##Searching within files
+The Unix world has **grep**, PowerShell has **Select String**
 
-	ls -?
+	Select-String the haiku.txt								#Case insensitive by default, unlike grep
+	Select-String the haiku.txt -CaseSensitive				#Behaves more like grep
+	Select-String day haiku.txt -CaseSensitive
+	Select-String is haiku.txt -CaseSensitive
+	Select-String 'it is' haiku.txt -Casesensitive
 
-When you do this, you'll get help for the **Get-ChildItem** Cmdlet which would be confusing if you didn't know that ls is actually an alias for **Get-ChildItem**
+There is no direct equivalent to grep's -w flag.
+	grep -w is haiku.txt
+
+However, you can get the same behaviour using the word boundary anchors, \b
+
+	Select-String \bis\b haiku.txt -casesensitive
+
+Grep has an -r flag which stands for 'recursive'.  The following will search through all files and subfolders of your current directory, looking for files that contain **is**
+	grep -r is *
+
+**Select-String** has no direct equivalent to this.  However, you can do the same thing by using get-childitem to get the list of files, piping the output to **select-string**
+
+	get-childitem * -recurse | select-string is
+
+One difference between **grep** and **Select-String** is that the latter includes the filename and line number of each match.
+
+	grep the haiku.txt
+
+	Is not the true Tao, until
+	and the presence of absence:
+
+	Select-String the haiku.txt -CaseSensitive
+
+	haiku.txt:2:Is not the true Tao, until
+	haiku.txt:6:and the presence of absence:  
+
+To get the **grep**-like output, use the following
+
+	Select-String the haiku.txt -CaseSensitive | ForEach-Object {$_.Line}
+
+	Is not the true Tao, until
+	and the presence of absence:
+
+To understand how this works, you first have to know that Select-String returns an array of MatchInfo objects when there is more than one match.  To demonstrate this:
+
+	$mymatches = Select-String the haiku.txt -CaseSensitive  #Put all matches in the variable 'mymatches'
+	$mymatches -is [Array] 			#query if 'match' is an array
+
+	True
+
+So, mymatches is an array.  We can see how many elements it has using the array's Count property
+
+	$mymatches.Count
+
+	2
+
+The type of elements in PowerShell arrays don't necessarily have to be the same.  In this case, however, they are.
+
+	$mymatches[0].gettype() 
+	$mymatches[1].gettype()
+
+both of these give the output
+
+	IsPublic IsSerial Name                                     BaseType
+	-------- -------- ----                                     --------
+	True     False    MatchInfo                                System.Object
+
+If all you wanted was the name of the first object type, you'd do
+
+	$mymatches[0].gettype().name
+
+	MatchInfo
+
+Alternatively, we could have asked for each element's type using the **For-Each-Object** Cmdlet to loop over every object in the array.
+
+	$mymatches | Foreach-Object {$_.gettype().Name}
+
+Where **$_** is a special variable that effectively means 'current object' or 'The object currently being considered by Foreach-Object' if you want to be more verbose.
+
+So, we know that we have an array of 2 MatchInfo objects in our variable mymatches.  What does this mean?  What properties do MatchInfo objects have?  We can find out by piping one of them to the **Get-Member** Cmdlet.
+
+	$mymatches[0] | Get-Member
+
+	   TypeName: Microsoft.PowerShell.Commands.MatchInfo
+
+	Name         MemberType Definition
+	----         ---------- ----------	
+	Equals       Method     bool Equals(System.Object obj)
+	GetHashCode  Method     int GetHashCode()
+	GetType      Method     type GetType()
+	RelativePath Method     string RelativePath(string directory)
+	ToString     Method     string ToString(), string ToString(string directory)
+	Context      Property   Microsoft.PowerShell.Commands.MatchInfoContext Context {get;se
+	Filename     Property   System.String Filename {get;}
+	IgnoreCase   Property   System.Boolean IgnoreCase {get;set;}
+	Line         Property   System.String Line {get;set;}	
+	LineNumber   Property   System.Int32 LineNumber {get;set;}
+	Matches      Property   System.Text.RegularExpressions.Match[] Matches {get;set;}
+	Path         Property   System.String Path {get;set;}
+	Pattern      Property   System.String Pattern {get;set;}	
+
+Now we can see that each MatchInfo object has a Line property and it's reasonable to guess that this contains a Line containing a match.  Taking a look:
+
+	$mymatches[0].Line
+
+	Is not the true Tao, until
+
+Bringing together everything we've seen so far, we pull out the Line property of each element in the array as follows
+	
+	$mymatches | Foreach-Object {$_.Line}
+
+Alternatively, we can ditch the $mymatches variable and pipe in the output of **Select-String** directly
+
+	Select-String the haiku.txt -CaseSensitive | ForEach-Object {$_.Line}
+
+	Is not the true Tao, until
+	and the presence of absence:
+
+##Regular expressions
+
+##Finding Files
+    # Find all     
+	UNIX: find .
+	PS: get-childitem .  -Recurse | foreach-object {$_.FullName}    
+
+To save on typing, you can use the alias **gci** instead of **get-childitem**
+    
+	# Directories only
+	UNIX: find . -type d        
+	PS2: gci . -recurse | where { $_.PSIsContainer }
+	PS3: gci -recurse -Directory 
+
+If you have PowerShell 2, you can only use the long winded version.  It's simpler in PowerShell 3.  Similarly for searching for files only.
+	
+	# Files only
+	UNIX: find . -type f          
+	PS2: get-childitem -recurse | where { ! $_.PSIsContainer }
+	PS3: gci -recurse -File
+    
+With the Unix find command, you can specify the maximum and minimum search depths.  There is no direct equivalent in PowerShell although you could write a function that will do this.  Such a function can be found at [http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html](http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html) although **I have not tested this!**
+
+	# Maximum depth of tree
+	UNIX: find . -maxdepth 2
+	PS : No direct equivalent
+	# Minimum depth of tree
+	UNIX: find . -mindepth 3 
+	PS : No direct equivalent
+
+You can also filter by name.  Confusingly, PowerShell offers two ways of doing this.  More details on the differences between these can be found at [http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html](http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html)
+
+One key difference between find and get-childitem is that the latter is case-insenstive whereas find is case sensitive.
+    
+	# Find by name
+    UNIX: find . -name '*.txt' 
+	PS: gci -recurse -include *.txt
+	PS: gci -recurse -filter *.txt
+
+	#Find empty files
+    UNIX: find . -empty    
+	PS: gci -recurse | where ($_.Length -eq 0) | Select FullName 
+
+	#Create empty file
+    UNIX: touch emptyfile.txt
+	PS: new-item emptyfile.txt -type file
+	
+
+
