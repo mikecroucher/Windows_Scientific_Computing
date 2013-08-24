@@ -240,14 +240,20 @@ The Unix world has **grep**, PowerShell has **Select String**
 	Select-String is haiku.txt -CaseSensitive
 	Select-String 'it is' haiku.txt -Casesensitive
 
-There is no direct equivalent to grep's -w flag.
+There is no direct equivalent to grep's -w switch.
+
 	grep -w is haiku.txt
 
-However, you can get the same behaviour using the word boundary anchors, \b
+However, you can get the same behaviour using the word boundary anchors, **\b**
 
 	Select-String \bis\b haiku.txt -casesensitive
 
-Grep has an -r flag which stands for 'recursive'.  The following will search through all files and subfolders of your current directory, looking for files that contain **is**
+Grep has a -v switch that shows all lines that do not match a pattern
+	BASH: grep -v "is" haiku.txxt
+	PS: select-string -notmatch "is" haiku.txt -CaseSensitive
+
+Grep has an -r switch which stands for 'recursive'.  The following will search through all files and subfolders of your current directory, looking for files that contain **is**
+
 	grep -r is *
 
 **Select-String** has no direct equivalent to this.  However, you can do the same thing by using get-childitem to get the list of files, piping the output to **select-string**
@@ -457,7 +463,7 @@ Error messages are output on standard error
     cat output.txt					#output.txt is empty
     ls idontexist.txt 2> output.txt               # 2 is standard error
     ls haiku.txt 1> output.txt                    # 1 is standard output
-    ls haiku.txt,test_file.txt 2>&1 > output.txt
+    ls haiku.txt,test_file.txt 2>&1 > output.txt  # Combine the two streams.
 
 
 
