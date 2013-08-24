@@ -572,7 +572,17 @@ To run this just type the filename:
 	
 	protein_filter.ps1
 
-If you get an error message, it will be because your execution policy is set not to run scripts locally.  Change this with the command
+If you get an error message, it may be because your execution policy is set not to run scripts locally.  Change this with the command
 
     Set-ExecutionPolicy RemoteSigned			#Allow local scripts to run
     protein_filter.ps1							#Run the script
+
+## Download files via command-line
+
+[Primary Care Trust Prescribing Data - April 2011 onwards](http://data.gov.uk/dataset/primary-care-trust-prescribing-data-april-to-june-2011)
+
+	$file="prim-care-trus-pres-data-apr-jun-2011-dat.csv"
+	$path="$pwd\$file"   #Path needs to be fully qualified. This puts it in the current folder
+	$url = "http://www.ic.nhs.uk/catalogue/PUB02342/$file"
+	$client = new-object System.Net.WebClient
+	$client.DownloadFile( $url, $path )
