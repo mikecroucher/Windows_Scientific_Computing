@@ -491,4 +491,28 @@ Important:
 
 Here is a potential solution
 	
-	select-string '\bH\b' *.pdb > hydrogen.txt 
+	select-string '\bH\b' *.pdb > hydrogen.txt
+ 
+## Variables
+
+    get-variable                            # See all variables
+    $MYFILE="data.txt"						# Need quotes around strings
+    echo $MYFILE
+    echo "My file name is $MYFILE"
+	$num = 1								#Numbers don't need quotes
+	$num = $num+1							#Simple Arithmetic
+	$TEXT_FILES=get-childitem				Save output of get-childitem
+	echo $TEXT_FILES
+
+Variables only persist for the duration of the current PowerShell Session
+
+## Environment variables
+
+Windows environment variables don't show up when you execute `get-variable`; to list them all you do
+
+	#PS
+	get-childitem env:					#Show all Windows Environment variables 
+	echo $env:PATH						#Show the contents of PATH
+	$env:Path = $env:Path + ";C:\YourApp\bin\"	#temporarily add a folder to PATH
+
+This modification to PATH will only last as long as the current session.  It is possible to permanently modify the system PATH but this should only be done with extreme care and is not covered here. 
