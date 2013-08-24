@@ -279,7 +279,7 @@ To get the **grep**-like output, use the following
 	Is not the true Tao, until
 	and the presence of absence:
 
-To understand how this works, you first have to know that Select-String returns an array of MatchInfo objects when there is more than one match.  To demonstrate this:
+To understand how this works, you first have to know that **Select-String** returns an **array** of **MatchInfo** objects when there is more than one match.  To demonstrate this:
 
 	$mymatches = Select-String the haiku.txt -CaseSensitive  #Put all matches in the variable 'mymatches'
 	$mymatches -is [Array] 			#query if 'match' is an array
@@ -473,8 +473,8 @@ Each `.pdb` file lists atoms in a protein
 
 Write a single command that
 
-* Uses `Select-String` to find all  hydrogen (`H`) atoms in all `.pdb` files.
-* Stores these in `hydrogen.txt`.
+ - Uses `Select-String` to find all  hydrogen (`H`) atoms in all `.pdb` files.
+ - Stores these in `hydrogen.txt`.
 
 You will need wild card, exact matches output redirection
 
@@ -485,9 +485,10 @@ Problems with the solution?
 
 Important:
 
- * Understand data.
- * Review script.
- * Validate that actual results equal expected results.
+ - Understand data.
+ - Review script.
+ - Validate that actual results equal expected results.
 
-	Solution:
-	select-string '\bH\b' *.pdb > hydrogen.txt
+Here is a potential solution
+	
+	select-string '\bH\b' *.pdb > hydrogen.txt 
