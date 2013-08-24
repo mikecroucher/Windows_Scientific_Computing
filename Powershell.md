@@ -516,3 +516,32 @@ Windows environment variables don't show up when you execute `get-variable`; to 
 	$env:Path = $env:Path + ";C:\YourApp\bin\"	#temporarily add a folder to PATH
 
 This modification to PATH will only last as long as the current session.  It is possible to permanently modify the system PATH but this should only be done with extreme care and is not covered here. 
+
+## PowerShell Profile
+
+The PowerShell profile is a script that is executed whenever you launch a new session.  Every user has their own profile.  The location of your PowerShell profile is defined by the variable **$profile**
+	
+	$profile
+
+Open it with 
+
+	notepad $profile
+
+Add something to it such as 
+
+	echo "Welcome to PowerShell.  This is a message from your profile"
+
+Restart PowerShell and you should see the message.  You can use this profile to customise your PowerShell sessions.  For example, if you have installed NotePad++, you might find adding the following function to your PowerShell Profile to be useful.
+
+	# Launch notepad++ using the npp command
+	function npp($file)
+	{
+  	if ($file -eq $null)
+    	{
+    	    & "C:\Program Files (x86)\Notepad++\notepad++.exe";
+    	}
+    	else
+    	{
+        	& "C:\Program Files (x86)\Notepad++\notepad++.exe" $file;
+    	}
+	}
