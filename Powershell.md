@@ -5,9 +5,10 @@ These notes are based on the Bash software carpentry event I helped with in Bath
 I wondered what a similar set of notes might look like in PowerShell - this is the result.  You are free to use them with the following caveats
 
 - This is not necessarily the right way to teach PowerShell. It is an experiment in converting some classroom-tested Linux based notes to PowerShell.  Further experiments are planned.
-- Attribution would be nice.  I am Mike Croucher, my site is [www.walkingrandomly.com](http://www.walkingrandomly.com)  Details on how to contact me at [http://www.walkingrandomly.com/?page_id=2055](http://www.walkingrandomly.com/?page_id=2055)
+- If you use them, attribution would be nice.  I am Mike Croucher, my site is [www.walkingrandomly.com](http://www.walkingrandomly.com)  Details on how to contact me at [http://www.walkingrandomly.com/?page_id=2055](http://www.walkingrandomly.com/?page_id=2055)
 - I have not yet tested these notes in a classroom situation
 - These notes aren't finished yet
+- These notes have developed and tested on Windows 7.  Behaviour may be different using different versions of Windows.
 
 ## The old Windows Command Shell
 
@@ -545,3 +546,33 @@ Restart PowerShell and you should see the message.  You can use this profile to 
         	& "C:\Program Files (x86)\Notepad++\notepad++.exe" $file;
     	}
 	}
+
+## Shell scripts
+
+- Save retyping.
+- PowerShell scripts have the extension .ps1
+- PowerShell scripts must be created with plain text editors such as Notepad or Notepad++.  NEVER use Microsoft Word!
+
+Here is a very simple script
+
+    notepad protein_filter.ps1   				#Open the file
+
+	#A simple protein filter
+	$DATE = get-date
+	echo "Processing date: $DATE"
+
+	foreach($item in get-childitem *.pdb)
+	{
+ 	   echo $item.Name
+	}
+
+	echo "Processing complete"
+
+To run this just type the filename:
+	
+	protein_filter.ps1
+
+If you get an error message, it will be because your execution policy is set not to run scripts locally.  Change this with the command
+
+    Set-ExecutionPolicy RemoteSigned			#Allow local scripts to run
+    protein_filter.ps1							#Run the script
