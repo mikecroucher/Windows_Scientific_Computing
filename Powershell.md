@@ -87,7 +87,6 @@ Users of Bash will feel right at home at first since PowerShell appears to have 
     rm file.txt        			# Delete - no recycle bin.
     rm -r directory    			# Recurse
 
-
 ##Different command types in PowerShell: Aliases, Functions and Cmdlets
 Many of the PowerShell commands we've used so far are actually aliases to Powershell Cmdlets which have a Verb-Noun naming convention.  We can discover what each command is an alias of using the **get-alias** cmdlet.
 
@@ -242,13 +241,14 @@ The Unix world has **grep**, PowerShell has **Select String**
 
 There is no direct equivalent to grep's -w switch.
 
-	grep -w is haiku.txt
+	grep -w is haiku.txt 			#exact match
 
 However, you can get the same behaviour using the word boundary anchors, **\b**
 
 	Select-String \bis\b haiku.txt -casesensitive
 
-Grep has a -v switch that shows all lines that do not match a pattern
+Grep has a -v switch that shows all lines that do not match a pattern.  **Select-String** makes use of the **-notmatch** switch.
+
 	BASH: grep -v "is" haiku.txxt
 	PS: select-string -notmatch "is" haiku.txt -CaseSensitive
 
@@ -465,8 +465,29 @@ Error messages are output on standard error
     ls haiku.txt 1> output.txt                    # 1 is standard output
     ls haiku.txt,test_file.txt 2>&1 > output.txt  # Combine the two streams.
 
-
-
+##Exercise - Select-String
 	
+`pdb/` contains a set of protein database files
 
+Each `.pdb` file lists atoms in a protein
 
+Write a single command that
+
+* Uses `Select-String` to find all  hydrogen (`H`) atoms in all `.pdb` files.
+* Stores these in `hydrogen.txt`.
+
+You will need wild card, exact matches output redirection
+
+Problems with the solution?
+
+ * Chains could be labelled with identifiers `H` and `L` (for heavy and light).
+ * `AUTHOR` contains an initial e.g. `HARRY H CORBETT`.
+
+Important:
+
+ * Understand data.
+ * Review script.
+ * Validate that actual results equal expected results.
+
+	Solution:
+	select-string '\bH\b' *.pdb > hydrogen.txt
