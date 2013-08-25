@@ -1,5 +1,5 @@
 param($step=1)
-#A simple, long running job to demonstrate background jobs
+#counter.ps1: A simple, long running job to demonstrate background jobs
 
 $i=1
 

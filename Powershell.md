@@ -591,6 +591,98 @@ If you get an error message, it may be because your execution policy is set not 
 
 Windows file permissions are rather more complicated than those of Linux but most users won't need to worry about them in day to day use.
 
+## The call operator
+It is sometimes convenient to construct strings that contain the full path to a PowerShell script we want to execute.  For example:
+
+	$fullpath = "$pwd\myscript.ps1"
+
+To actually run the script pointed to by this variable, you need to use the call operator **&**
+
+	& $fullpath					#Runs myscript.ps1
+
+You also need to do this if you try to call any script where the path contains spaces
+
+	"C:\Program Files\myscript.ps1"				#Will just display the string literal
+	& "C:\Program Files\myscript.ps1"			#Runs the script
+
+## Background Jobs
+Consider the script counter.ps1
+
+	param($step=1)
+	#counter.ps1: A simple, long running job to demonstrate background jobs
+
+	$i=1
+
+	while ( $i -lt 200000 )
+	{
+		echo $i
+		$i=$i+$step
+	}
+
+This counts up to 200000 in user-defined steps.  
+
+	./counter.ps1 	> 1step.txt					#Counts in steps of 1
+	./counter.ps1 -step 2 > 2step.txt			#Counts in steps of 2
+
+The script takes quite a while to complete and you cannot do anything else in your PowerShell session while it is working.  Using the **start-job** Cmdlet, we can run counter.ps1 in the background
+
+	start-job -scriptblock { C:\Users\walkingrandomly\Dropbox\SSI_Windows\dir_full_of_files\some_directory\counter.ps1 >  C:\Users\walkingrandomly\Dropbox\SSI_Windows\dir_full_of_files\some_directory\outcount1.txt }
+
+Note that you have to use the **full path** to both the counter.ps1 script and the output file.  You can see the status of the job with **get-job**
+
+	get-job
+
+	
+	Id              Name            State      HasMoreData     Location             Command
+	--              ----            -----      -----------     --------             -------
+	1              Job1             Running    True            localhost             C:\Users\walkingrando...
+
+Eventually, your job will complete
+
+	get-job
+
+	
+	Id              Name            State      HasMoreData     Location             Command
+	--              ----            -----      -----------     --------             -------
+	1               Job1            Completed  False           localhost             C:\Users\walkingrando...
+
+	ls outcount*					#Ensure that output file has been created
+	remove-job 1					#remove remnants of job 1 from the queue
+	get-job							#Check that queue is empty
+
+You can run as many simultaneous jobs as you like but it is best not to run too many or your computer will grind to a halt.  
+
+Here's an example that runs 5 counter.ps1 jobs concurrently
+
+	#parallel_counters.ps1
+	#Runs 5 instances of counter.ps1 in parallel
+
+	$scriptname 	= "counter.ps1"
+	$outputfileBase = "outfile"
+	$outputfileExt  = ".txt"
+
+	$scriptPath = "$pwd\$scriptname"
+
+	for ($i=1; $i -le 5; $i++)
+	{
+  	  $outputfilePath = "$pwd\$outputfileBase" + $i + $outputfileExt
+  	  $command = "$scriptPath -step $i `> $outputfilePath"
+  	  $myScriptBlock = [scriptblock]::Create($command)
+  	  start-job -scriptblock $myScriptBlock
+	}
+	
+Run this as a demonstration
+
+	parallel_counters.ps1
+	get-job								#Keep running until all have completed
+	ls outfile*
+	more outfile5.txt
+	more outfile2.txt
+	$myjob=get-job 2					#Get info on job Id 2 and store in variable $myjob
+	$myjob.Command						#Look at the command that comprised job 2
+	remove-job *						#Remove all job remnants from the queue
+	get-job								#Should be empty
+
 #Secure Shell
 
 There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.  The following free programs are recommended
