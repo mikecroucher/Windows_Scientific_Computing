@@ -1,6 +1,6 @@
-#Windows Scripting for scientists
+#Windows Scripting using PowerShell
 
-These notes are based on the Bash software carpentry event I helped with in Bath.  [https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell](https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell).  
+These notes are based on the Bash session of the software carpentry event I helped with in Bath.  [https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell](https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell).  
 
 I wondered what a similar set of notes might look like in PowerShell - this is the result.  You are free to use them with the following caveats
 
@@ -586,3 +586,15 @@ If you get an error message, it may be because your execution policy is set not 
 	$url = "http://www.ic.nhs.uk/catalogue/PUB02342/$file"
 	$client = new-object System.Net.WebClient
 	$client.DownloadFile( $url, $path )
+
+## Permissions
+
+Windows file permissions are rather more complicated than those of Linux but most users won't need to worry about them in day to day use.
+
+#Secure Shell
+
+There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.  The following free programs are recommended
+
+ - [http://www.chiark.greenend.org.uk/~sgtatham/putty/](http://www.chiark.greenend.org.uk/~sgtatham/putty/) - PuTTY is a free implementation of Telnet and SSH for Windows and Unix platforms.
+ - [http://winscp.net/eng/index.php](http://winscp.net/eng/index.php) - Free SFTP, SCP and FTP client for Windows.
+ - [http://mobaxterm.mobatek.net/](http://mobaxterm.mobatek.net/) - A more advanced terminal  than PuTTY with a free 'personal edition' and a paid-for 'professional edition'
