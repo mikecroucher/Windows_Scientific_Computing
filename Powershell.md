@@ -547,6 +547,8 @@ Restart PowerShell and you should see the message.  You can use this profile to 
     	}
 	}
 
+With this function in your profile, you can open Notepad++ with the command **npp** or **npp(filename.txt**)
+
 ## Shell scripts
 
 - Save retyping.
