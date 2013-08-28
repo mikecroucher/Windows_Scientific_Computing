@@ -549,6 +549,60 @@ Restart PowerShell and you should see the message.  You can use this profile to 
 
 With this function in your profile, you can open Notepad++ with the command **npp** or **npp(filename.txt)**
 
+
+## Conditionals
+
+	$num = 1
+	if($num -eq 1)
+ 	{
+      write-host 'num equals 1'
+ 	}
+
+    $word="hello"
+	if($word -eq "hello")
+ 	{
+      write-host 'The same'
+ 	}
+
+By default, string tests are case insensitive
+
+  	$word="hello"
+	if($word -eq "HELLO")
+ 	{
+      write-host 'The same'
+ 	}
+
+To force them to be case sensitive, add a `c` to the operator:
+
+  	$word="hello"
+	if($word -ceq "HELLO")
+ 	{
+      write-host 'The Same. This won't be printed'
+ 	}
+
+You can similarly be explicitly case insensitive by adding an `i`.  Although this is the the same behaviour as the undecorated operators and so might seem unnecessary, it shows your intent to the reader.
+   
+	  	$word="hello"
+		if($word -ieq "HELLO")
+ 		{
+      	  write-host 'The same'
+ 		}
+
+##### Comparison Operators
+
+	-eq	Equal to
+	-lt	Less than
+	-gt	Greater than
+	-ge	Greater than or equal to
+	-le	Less than or equal to
+	-ne	Not equal to
+
+##### Logical operators
+	-not	Not
+	!		Not
+	-or		Or
+	-and	And
+
 ## Loops
 PowerShell has several looping constructs.  Here, I only consider two.
 ###for
