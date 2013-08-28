@@ -409,7 +409,7 @@ In bash, you can execute a command using backticks and the result is substituted
 	#bash
 	foo `bar`
 
-The backticks are used as escape characters in PowerShell so you do the folllowing instead
+The backticks are used as escape characters in PowerShell so you do the following instead
 
 	#PS
 	foo $(bar)
@@ -547,7 +547,25 @@ Restart PowerShell and you should see the message.  You can use this profile to 
     	}
 	}
 
-With this function in your profile, you can open Notepad++ with the command **npp** or **npp(filename.txt**)
+With this function in your profile, you can open Notepad++ with the command **npp** or **npp(filename.txt)**
+
+## Loops
+PowerShell has several looping constructs.  Here, I only consider two.
+###for
+Allows you to run a block of code a set number of times.
+
+	for ($i=1; $i -le 5; $i=$i+1)
+	{
+	   Write-Host $i
+	}
+
+###foreach
+Do something with every element of a collection
+
+	foreach($item in $(ls *.txt)) {echo $item.Name}
+
+###foreach vs foreach-object
+TODO
 
 ## Shell scripts
 
