@@ -204,7 +204,7 @@ When you execute the above command, a table of results will be returned:
 
 This is because the measure-object Cmdlet, like all PowerShell Cmdlets, actually returns an object and the above table is the textual representation of that object.
 
-This hints that **measure-object** can do a lot more than simply count things.  For example, here we find some statistics concerning the file lengths found by the ls *.txt command
+The fields in this table hint that **measure-object** can do a lot more than simply count things.  For example, here we find some statistics concerning the file lengths found by the ls *.txt command
 
 	ls *.txt | measure-object -property length -minimum -maximum -sum -average
 
@@ -682,6 +682,8 @@ Run this as a demonstration
 	$myjob.Command						#Look at the command that comprised job 2
 	remove-job *						#Remove all job remnants from the queue
 	get-job								#Should be empty
+
+TODO: Dealing with output, **recieve-job**
 
 #Secure Shell
 
