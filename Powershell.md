@@ -357,65 +357,6 @@ Alternatively, we can ditch the $mymatches variable and pipe in the output of **
 
 ##Regular expressions
 
-##Finding Files
-    # Find all     
-	UNIX: find .
-	PS: get-childitem .  -Recurse | foreach-object {$_.FullName}    
-
-To save on typing, you can use the alias **gci** instead of **get-childitem**
-    
-	# Directories only
-	UNIX: find . -type d        
-	PS2: gci . -recurse | where { $_.PSIsContainer }
-	PS3: gci -recurse -Directory 
-
-If you have PowerShell 2, you can only use the long winded version.  It's simpler in PowerShell 3.  Similarly for searching for files only.
-	
-	# Files only
-	UNIX: find . -type f          
-	PS2: get-childitem -recurse | where { ! $_.PSIsContainer }
-	PS3: gci -recurse -File
-    
-With the Unix find command, you can specify the maximum and minimum search depths.  There is no direct equivalent in PowerShell although you could write a function that will do this.  Such a function can be found at [http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html](http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html) although **I have not tested this!**
-
-	# Maximum depth of tree
-	UNIX: find . -maxdepth 2
-	PS : No direct equivalent
-	# Minimum depth of tree
-	UNIX: find . -mindepth 3 
-	PS : No direct equivalent
-
-You can also filter by name.  Confusingly, PowerShell offers two ways of doing this.  More details on the differences between these can be found at [http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html](http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html)
-
-One key difference between find and get-childitem is that the latter is case-insenstive whereas find is case sensitive.
-    
-	# Find by name
-    UNIX: find . -name '*.txt' 
-	PS: gci -recurse -include *.txt
-	PS: gci -recurse -filter *.txt
-
-	#Find empty files
-    UNIX: find . -empty    
-	PS: gci -recurse | where ($_.Length -eq 0) | Select FullName 
-
-	#Create empty file
-    UNIX: touch emptyfile.txt
-	PS: new-item emptyfile.txt -type file
-
-##Command Substituion
-
-In bash, you can execute a command using backticks and the result is substituted in place.  i.e.
-
-	#bash
-	foo `bar`
-
-The backticks are used as escape characters in PowerShell so you do the following instead
-
-	#PS
-	foo $(bar)
-
-In both cases, the command **bar** is executed and result is substituted into the call to **foo**.	
-
 ## Input and output redirection
 
 `>` redirects output (AKA standard output).  This works in both Bash and Powershell scripts.  For example, in Bash we might do
@@ -490,9 +431,75 @@ Important:
  - Review script.
  - Validate that actual results equal expected results.
 
-Here is a potential solution
+##Finding Files
+    # Find all     
+	UNIX: find .
+	PS: get-childitem .  -Recurse 
+	PS: get-childitem .  -Recurse | foreach-object {$_.FullName} 	#To give identical output as `find`   
+
+To save on typing, you can use the alias **gci** instead of **get-childitem**
+    
+	# Directories only
+	UNIX: find . -type d        
+	PS2: gci . -recurse | where { $_.PSIsContainer }
+	PS3: gci -recurse -Directory 
+
+If you have PowerShell 2, you can only use the long winded version.  It's simpler in PowerShell 3.  Similarly for searching for files only.
 	
-	select-string '\bH\b' *.pdb > hydrogen.txt
+	# Files only
+	UNIX: find . -type f          
+	PS2: get-childitem -recurse | where { ! $_.PSIsContainer }
+	PS3: gci -recurse -File
+    
+With the Unix find command, you can specify the maximum and minimum search depths.  There is no direct equivalent in PowerShell although you could write a function that will do this.  Such a function can be found at [http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html](http://windows-powershell-scripts.blogspot.co.uk/2009/08/unix-linux-find-equivalent-in.html) although **I have not tested this!**
+
+	# Maximum depth of tree
+	UNIX: find . -maxdepth 2
+	PS : No direct equivalent
+	# Minimum depth of tree
+	UNIX: find . -mindepth 3 
+	PS : No direct equivalent
+
+You can also filter by name.  Confusingly, PowerShell offers two ways of doing this.  More details on the differences between these can be found at [http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html](http://tfl09.blogspot.co.uk/2012/02/get-childitem-and-theinclude-and-filter.html)
+
+One key difference between find and get-childitem is that the latter is case-insenstive whereas find is case sensitive.
+    
+	# Find by name
+    UNIX: find . -name '*.txt' 
+	PS: gci -recurse -include *.txt
+	PS: gci -recurse -filter *.txt
+
+	#Find empty files
+    UNIX: find . -empty    
+	PS: gci -recurse | where ($_.Length -eq 0) | Select FullName 
+
+	#Create empty file
+    UNIX: touch emptyfile.txt
+	PS: new-item emptyfile.txt -type file
+
+
+##Command Substituion
+
+In bash, you can execute a command using backticks and the result is substituted in place.  i.e.
+
+	#bash
+	foo `bar`
+
+The backticks are used as escape characters in PowerShell so you do the following instead
+
+	#PS
+	foo $(bar)
+
+In both cases, the command **bar** is executed and result is substituted into the call to **foo**.	
+
+## Exercise - searching for files
+
+Write a single command that
+
+* Uses `get-childitem` to find all `.pdb` files.
+* Uses `cat` or `get-content` to list their contents.
+* Stores contents in `proteins.txt`.
+
  
 ## Variables
 
@@ -766,3 +773,10 @@ There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.
  - [http://www.chiark.greenend.org.uk/~sgtatham/putty/](http://www.chiark.greenend.org.uk/~sgtatham/putty/) - PuTTY is a free implementation of Telnet and SSH for Windows and Unix platforms.
  - [http://winscp.net/eng/index.php](http://winscp.net/eng/index.php) - Free SFTP, SCP and FTP client for Windows.
  - [http://mobaxterm.mobatek.net/](http://mobaxterm.mobatek.net/) - A more advanced terminal  than PuTTY with a free 'personal edition' and a paid-for 'professional edition'
+
+#Exercise Solutions
+###select-string
+	select-string '\bH\b' *.pdb > hydrogen.txt
+###Searching for files
+	gci -recurse -include *.pdb | get-content > proteins.txt
+
