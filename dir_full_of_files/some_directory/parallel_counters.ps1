@@ -13,6 +13,5 @@ for ($i=1; $i -le 5; $i++)
   $command = "$scriptPath -step $i `> $outputfilePath"
   $myScriptBlock = [scriptblock]::Create($command)
   start-job -scriptblock $myScriptBlock
-
 }
 	 

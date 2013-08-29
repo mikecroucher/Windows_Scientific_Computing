@@ -1,4 +1,4 @@
-#Windows Scripting using PowerShell
+s#Windows Scripting using PowerShell
 
 These notes are based on the Bash session of the software carpentry event I helped with in Bath.  [https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell](https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell).  
 
@@ -499,8 +499,7 @@ Write a single command that
 * Uses `get-childitem` to find all `.pdb` files.
 * Uses `cat` or `get-content` to list their contents.
 * Stores contents in `proteins.txt`.
-
- 
+	 
 ## Variables
 
     get-variable                            # See all variables
@@ -773,6 +772,35 @@ There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.
  - [http://www.chiark.greenend.org.uk/~sgtatham/putty/](http://www.chiark.greenend.org.uk/~sgtatham/putty/) - PuTTY is a free implementation of Telnet and SSH for Windows and Unix platforms.
  - [http://winscp.net/eng/index.php](http://winscp.net/eng/index.php) - Free SFTP, SCP and FTP client for Windows.
  - [http://mobaxterm.mobatek.net/](http://mobaxterm.mobatek.net/) - A more advanced terminal  than PuTTY with a free 'personal edition' and a paid-for 'professional edition'
+
+## Shell power
+
+(Bentley, Knuth, McIlroy 1986) [Programming pearls: a literate program](http://dl.acm.org/citation.cfm?id=5948.315654) Communications of the ACM, 29(6), pp471-483, June 1986. DOI: [10.1145/5948.315654].
+
+Dr. Drang, [More shell, less egg](http://www.leancrew.com/all-this/2011/12/more-shell-less-egg/), December 4th, 2011.
+
+Common words problem: read a text file, identify the N most frequently-occurring words, print out a sorted list of the words with their frequences.
+
+10 plus pages of Pascal ... or ... 1 line of shell 
+
+	#BASH version
+    $ nano words.sh
+    tr -cs A-Za-z '\n' | tr A-Z a-z | sort | uniq -c | sort -rn | sed ${1}q
+    $ chmod +x words.sh
+    $ nano words.sh < README.md
+    $ nano words.sh < README.md 10
+
+The PowerShell version is more complicated but still very short compared to the 10 pages of Pascal
+
+	#count_words.ps1
+	Param([string]$filename,[int]$num)
+	$text=get-content $filename
+	$split = foreach($line in $text) {$line.tolower() -split "\W"}
+	$split | where-object{-not [string]::IsNullorEmpty($_)} |  group -noelement | sort Count -Descending | select -first $num
+
+	count_words.sh README.md 10
+
+"A wise engineering solution would produce, or better, exploit-reusable parts." - Doug McIlroy
 
 #Exercise Solutions
 ###select-string
