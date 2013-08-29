@@ -808,3 +808,8 @@ The PowerShell version is more complicated but still very short compared to the 
 ###Searching for files
 	gci -recurse -include *.pdb | get-content > proteins.txt
 
+## Links
+
+* [Software Carpentry](http://software-carpentry.org/)'s online [shell](http://software-carpentry.org/4_0/shell/) lectures.
+* G. Wilson, D. A. Aruliah, C. T. Brown, N. P. Chue Hong, M. Davis, R. T. Guy, S. H. D. Haddock, K. Huff, I. M. Mitchell, M. Plumbley, B. Waugh, E. P. White, P. Wilson (2012) "[Best Practices for Scientific Computing](http://arxiv.org/abs/1210.0530)", arXiv:1210.0530 [cs.MS].
+
