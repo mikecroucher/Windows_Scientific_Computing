@@ -490,7 +490,16 @@ The backticks are used as escape characters in PowerShell so you do the followin
 	#PS
 	foo $(bar)
 
-In both cases, the command **bar** is executed and result is substituted into the call to **foo**.	
+In both cases, the command **bar** is executed and result is substituted into the call to **foo**.
+
+## Exercise - finding files
+
+Write a single command that
+
+* Uses `get-childitem` to find all `.pdb` files.
+* Uses `cat` or `get-content` to list their contents.
+* Stores contents in `proteins.txt`.
+	
 
 ## Power of the pipe
 
@@ -498,11 +507,11 @@ In both cases, the command **bar** is executed and result is substituted into th
 
 Count text files
 
-    ls *.txt | measure
+    ls -filter *.txt | measure
 
 `ls` outputs a list of files, `measure` inputs a list of files.   
 
-	echo "Number of .txt files:"; ls *.txt | measure | select -expand count
+	echo "Number of .txt files:"; ls -filter *.txt | measure | select -expand count
 
 `;` equivalent to running two commands on separate lines.
 
@@ -520,13 +529,17 @@ Power of well-defined modular components with well-defined interfaces,
  * Good design principle applicable to programming - Python modules, C libraries, Java classes - modularity and reuse.
  * "little pieces loosely joined" - `history` + `select-string` = function to search for a command.
 
-## Exercise - finding files
+## Exercise - pipes
 
 Write a single command that
 
 * Uses `get-childitem` to find all `.pdb` files.
-* Uses `cat` or `get-content` to list their contents.
-* Stores contents in `proteins.txt`.
+* Uses `get-content` to list their contents.
+* Uses `select-string` to find all the hydrogen (`H`) atoms in their contents.
+* Uses `measure` to count the number of hydrogen atoms found.
+* Stores the count in `hydrogen_count.txt`.
+
+You will need commands from previous exercises and pipes
 	 
 ## Variables
 
@@ -807,7 +820,7 @@ There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.
 
 Dr. Drang, [More shell, less egg](http://www.leancrew.com/all-this/2011/12/more-shell-less-egg/), December 4th, 2011.
 
-Common words problem: read a text file, identify the N most frequently-occurring words, print out a sorted list of the words with their frequences.
+Common words problem: read a text file, identify the N most frequently-occurring words, print out a sorted list of the words with their frequencies.
 
 10 plus pages of Pascal ... or ... 1 line of shell 
 
@@ -833,8 +846,10 @@ The PowerShell version is more complicated but still very short compared to the 
 #Exercise Solutions
 ###select-string
 	select-string '\bH\b' *.pdb > hydrogen.txt
-###Searching for files
+###Finding files
 	gci -recurse -include *.pdb | get-content > proteins.txt
+###Pipes
+	gci -recurse -filter *.pdb | get-content | select-string '\bH\b' | measure >hydrogen_count.tx
 
 ## Links
 
