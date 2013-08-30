@@ -357,6 +357,16 @@ Alternatively, we can ditch the $mymatches variable and pipe in the output of **
 
 ##Regular expressions
 
+    select-string 's*is' haiku.txt        # * Zero or more of preceding token
+	select-string 's+is' haiku.txt		  # + On or more of preceding token
+    select-string '.nd'  haiku.txt        # . Any token followed by 'nd'
+    select-string 'es'   haiku.txt        # matches 'es'
+	select-string 'es[ht]' haiku.txt	  # Exactly one of the characters listed
+	select-string 'es[^ht]' haiku.txt     # Matches everything except h and t
+	select-string 'ex[
+	select-string '\bis\b' haiku.txt      # \b word boundaries
+
+
 ## Input and output redirection
 
 `>` redirects output (AKA standard output).  This works in both Bash and Powershell scripts.  For example, in Bash we might do
