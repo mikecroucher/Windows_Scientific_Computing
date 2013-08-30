@@ -431,7 +431,7 @@ Important:
  - Review script.
  - Validate that actual results equal expected results.
 
-##Finding Files
+##Searching for files
     # Find all     
 	UNIX: find .
 	PS: get-childitem .  -Recurse 
@@ -492,7 +492,35 @@ The backticks are used as escape characters in PowerShell so you do the followin
 
 In both cases, the command **bar** is executed and result is substituted into the call to **foo**.	
 
-## Exercise - searching for files
+## Power of the pipe
+
+`|` is a pipe.  Use the pipe to connect the output of one command to the input of another:
+
+Count text files
+
+    ls *.txt | measure
+
+`ls` outputs a list of files, `measure` inputs a list of files.   
+
+	echo "Number of .txt files:"; ls *.txt | measure | select -expand count
+
+`;` equivalent to running two commands on separate lines.
+
+Question: what does this do?
+
+    ls -name | select-string s | measure
+
+Answer: counts the number of files with `s` in their name.
+
+    history | select-string 'echo'
+
+Power of well-defined modular components with well-defined interfaces,
+
+ * Bolt together to create powerful computational and data processing workflows.
+ * Good design principle applicable to programming - Python modules, C libraries, Java classes - modularity and reuse.
+ * "little pieces loosely joined" - `history` + `select-string` = function to search for a command.
+
+## Exercise - finding files
 
 Write a single command that
 
