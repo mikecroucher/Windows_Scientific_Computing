@@ -831,6 +831,27 @@ There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.
 ##Packaging
 There are no direct PowerShell equivalents to zip, unzip, tar etc.  There are `write-zip`, `write-tar` and `write-gzip` cmdlets in the third party, free [PowerShell Community Extensions](http://pscx.codeplex.com/) but I have not investigated them yet.
 
+## Transcripts
+
+`Start-transcript` Initializes a transcript file which records all subsequent input/Output. Use the following syntax:
+
+	Start-Transcript [[-path] FilePath] [-force] [-noClobber] [-append]
+
+`Stop-transcript` Stops recording  and finalizes the transcript.
+
+	start-transcript -path ./diary.txt
+	ls
+	echo "Hello dear diary"
+	stop-transcript
+	cat diary.txt
+
+Record commands typed, commands with lots of outputs, trial-and-error when building software. 
+
+Send exact copy of command and error message to support.
+
+Turn into blog or tutorial.
+
+
 ## Shell power
 
 (Bentley, Knuth, McIlroy 1986) [Programming pearls: a literate program](http://dl.acm.org/citation.cfm?id=5948.315654) Communications of the ACM, 29(6), pp471-483, June 1986. DOI: [10.1145/5948.315654].
@@ -884,6 +905,6 @@ The PowerShell version is more complicated but still very short compared to the 
 
 ## Links
 
-* [Software Carpentry](http://software-carpentry.org/)'s online [shell](http://software-carpentry.org/4_0/shell/) lectures.
+* [Software Carpentry](http://software-carpentry.org/)'s online [Bash shell](http://software-carpentry.org/4_0/shell/) lectures.
 * G. Wilson, D. A. Aruliah, C. T. Brown, N. P. Chue Hong, M. Davis, R. T. Guy, S. H. D. Haddock, K. Huff, I. M. Mitchell, M. Plumbley, B. Waugh, E. P. White, P. Wilson (2012) "[Best Practices for Scientific Computing](http://arxiv.org/abs/1210.0530)", arXiv:1210.0530 [cs.MS].
 
