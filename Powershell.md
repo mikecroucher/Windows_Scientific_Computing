@@ -695,8 +695,22 @@ To run this just type the filename:
 
 If you get an error message, it may be because your execution policy is set not to run scripts locally.  Change this with the command
 
-    Set-ExecutionPolicy RemoteSigned			#Allow local scripts to run
+    Set-ExecutionPolicy RemoteSigned			#Allow local scripts to run.  Needs to be run with admin privileges
     protein_filter.ps1							#Run the script
+
+## Exercise - shell scripts
+
+Edit `protein_filter.ps1` so that it
+
+* Has variables `ATOM` with value `'H'` and `PDB_EXT` with value `'pdb'`.
+* For each `.pdb` file it prints the file name and a count of the number of hydrogen atoms in that file.
+
+You will need parts of your command from the previous exercise.
+
+Edit protein_filter.sh so that it takes the atom value from the command-line e.g.
+
+    $ ./protein_filter.sh H
+    $ ./protein_filter.sh C
 
 ## Download files via command-line
 
@@ -850,6 +864,20 @@ The PowerShell version is more complicated but still very short compared to the 
 	gci -recurse -include *.pdb | get-content > proteins.txt
 ###Pipes
 	gci -recurse -filter *.pdb | get-content | select-string '\bH\b' | measure >hydrogen_count.tx
+###Scripts
+	Param($ATOM)
+	#A simple protein filter
+	$DATE = get-date
+	$PDB_EXT = 'pdb'
+	echo "Processing date: $DATE"
+
+	foreach($item in get-childitem -filter *.$PDB_EXT)
+	{
+ 	 $atom_count = get-content $item | select-string $ATOM | measure | select -expand count
+ 	 echo "$item.Name contains $atom_count $ATOM atoms"
+	}
+
+	echo "Processing complete"
 
 ## Links
 
