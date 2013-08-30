@@ -707,7 +707,7 @@ Edit `protein_filter.ps1` so that it
 
 You will need parts of your command from the previous exercise.
 
-Edit protein_filter.sh so that it takes the atom value from the command-line e.g.
+Edit protein_filter.ps1 so that it takes the atom value from the command-line e.g.
 
     $ ./protein_filter.sh H
     $ ./protein_filter.sh C
@@ -820,13 +820,16 @@ Run this as a demonstration
 
 TODO: Dealing with output, **recieve-job**
 
-#Secure Shell
+##Secure Shell
 
 There is no equivalent to the Linux commands **ssh** and **sftp** in PowerShell.  The following free programs are recommended
 
  - [http://www.chiark.greenend.org.uk/~sgtatham/putty/](http://www.chiark.greenend.org.uk/~sgtatham/putty/) - PuTTY is a free implementation of Telnet and SSH for Windows and Unix platforms.
  - [http://winscp.net/eng/index.php](http://winscp.net/eng/index.php) - Free SFTP, SCP and FTP client for Windows.
  - [http://mobaxterm.mobatek.net/](http://mobaxterm.mobatek.net/) - A more advanced terminal  than PuTTY with a free 'personal edition' and a paid-for 'professional edition'
+
+##Packaging
+There are no direct PowerShell equivalents to zip, unzip, tar etc.  There are `write-zip`, `write-tar` and `write-gzip` cmdlets in the third party, free [PowerShell Community Extensions](http://pscx.codeplex.com/) but I have not investigated them yet.
 
 ## Shell power
 
