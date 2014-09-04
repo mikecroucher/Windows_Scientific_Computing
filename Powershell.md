@@ -21,7 +21,7 @@ You can launch this command shell as follows
 - Hold down both the Windows button and the letter R to open the Run prompt
 - Type cmd and press Enter or click OK
 
-![Launch Cmd](./images/launchcmd.png?raw=true)
+![Launch Cmd](images/launchcmd.png?raw=true)
 
 - You should see a window similar to the one below
 
