@@ -6,7 +6,7 @@ Download git for windows from
 
 Accept all of the default options until you get to the **Git Setup** window, below.
 
-![Git Setup]("Images/git_install.png")
+![Git Setup](Images/git_install.png)
 
 Ensure that **Run Git from The Windows Command Prompt** is checked.  This will allow you to run git from within a PowerShell session.
 
@@ -17,11 +17,11 @@ To launch a PowerShell Session, do the following:
  
 - Hold down the Windows key and the letter r to open the **Run** Window, type **powershell** and press Enter or Click OK
 
-![launch powershell]("Images/launchpowershell.png")
+![launch powershell](Images/launchpowershell.png)
 
 - You should see a window similar to the one below.
 
-![The Powershell prompt]("Images/powershell.png")
+![The Powershell prompt](Images/powershell.png)
 
 ##Anaconda Python
 
@@ -31,7 +31,7 @@ Install Notes for Windows 7 and 8
  - Double click on the installer .exe file to begin
  - At the Advanced Installation Options screen, ensure that both boxes are ticked
 
-![Anaconda Install]("Images/anaconda.png")
+![Anaconda Install](Images/anaconda.png)
 
 ##Notepad++ 
 High quality, free text editor with Syntax Highlighting and Code Folding
