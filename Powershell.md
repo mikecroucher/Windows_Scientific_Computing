@@ -21,11 +21,11 @@ You can launch this command shell as follows
 - Hold down both the Windows button and the letter R to open the Run prompt
 - Type cmd and press Enter or click OK
 
-![Launch Cmd](Images/launchcmd.png?raw=true)
+![Launch Cmd](Images/launchcmd.png)
 
 - You should see a window similar to the one below
 
-![Windows Command Prompt](Images/cmdexe.png?raw=true)
+![Windows Command Prompt](Images/cmdexe.png)
 
 The Windows command shell hasn’t changed significantly for over twenty years and is relatively feature poor compared to more modern shells.  For this reason, it is recommended that you use Windows PowerShell instead.  Mention of cmd.exe is only included here since, despite its deficiencies,  it is still widely in use
 
@@ -36,7 +36,7 @@ To launch PowerShell:
 - Hold down both the Windows button and the letter R to open the Run prompt
 - Type **powershell** and press Enter or click OK
 
-![Launch PowerShell](Images/launchpowershell.png?raw=true)
+![Launch PowerShell](Images/launchpowershell.png)
 
 - You should see a window similar to the one below
 
