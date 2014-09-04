@@ -1,4 +1,6 @@
-s#Windows Scripting using PowerShell
+#Windows Scripting using PowerShell
+
+I wrote up a blog post about these PowerShell notes in July 2014 - [http://www.walkingrandomly.com/?p=5523](http://www.walkingrandomly.com/?p=5523)
 
 These notes are based on the Bash session of the software carpentry event I helped with in Bath.  [https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell](https://github.com/swcarpentry/boot-camps/tree/2013-07-bath/shell).  
 
@@ -19,7 +21,7 @@ You can launch this command shell as follows
 - Hold down both the Windows button and the letter R to open the Run prompt
 - Type cmd and press Enter or click OK
 
-![Launch Cmd](./images/launchcmd.png)
+![Launch Cmd](./images/launchcmd.png?raw=true)
 
 - You should see a window similar to the one below
 
