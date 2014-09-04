@@ -13,10 +13,25 @@ This is a list of Windows software I recommend.  Most of it is free unless other
  - [http://winscp.net/eng/index.php](http://winscp.net/eng/index.php) - Free SFTP, SCP and FTP client for Windows.
  - [http://mobaxterm.mobatek.net/](http://mobaxterm.mobatek.net/) - A more advanced terminal  than PuTTY with a free 'personal edition' and a paid-for 'professional edition'.  I prefer this to PuTTY.
 
-## PowerShell
+## Scripting - PowerShell
 
  - [PowerShell Community Extensions](http://pscx.codeplex.com/) - PowerShell Community Extensions (PSCX) is aimed at providing a widely useful set of additional cmdlets, providers, aliases, filters, functions and scripts for Windows PowerShell that members of the community have expressed interest in. 
 
-## Python
+## Languages
+###Python
 
  - [Anaconda Python](https://store.continuum.io/cshop/anaconda/) - A single installer provides most of the Python modules you'll ever need for scientific work. The main package is free. There are add-ons that cost extra but these are free for academic use
+
+###Julia
+
+ - [Julia](http://julialang.org/) is a relatively new programming language for scientific computing. Potentially very fast.
+
+###R
+
+ - [R](http://www.r-project.org/) is commonly used for statistics and data analysis.
+ - [R Studio](http://www.rstudio.com/) - A powerful IDE for R
+
+###MATLAB
+
+ - [MATLAB](http://www.mathworks.co.uk/) is an expensive commercial product that is heavily used in Academia. Much of the in-depth functionality is hived-off into toolboxes (over 90 of them!) that all cost extra.
+ - [Octave](http://www.gnu.org/software/octave/) is a free, open source of MATLAB. Many MATLAB programs will run unmodified in Octave. Support for the toolboxes is limited.
